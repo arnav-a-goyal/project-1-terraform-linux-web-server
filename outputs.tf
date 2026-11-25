@@ -1,16 +1,15 @@
-
 output "instance_id" {
   description = "EC2 instance ID"
   value       = aws_instance.web.id
 }
 
 output "public_ip" {
-  description = "EC2 public IP address"
+  description = "Public IP address"
   value       = aws_instance.web.public_ip
 }
 
 output "public_dns" {
-  description = "EC2 public DNS"
+  description = "Public DNS"
   value       = aws_instance.web.public_dns
 }
 
@@ -20,13 +19,13 @@ output "website_url" {
 }
 
 output "vpc_id" {
-  description = "VPC ID"
-  value       = local.vpc_id
+  description = "New VPC ID"
+  value       = aws_vpc.main.id
 }
 
 output "subnet_id" {
   description = "Public subnet ID"
-  value       = local.subnet_id
+  value       = aws_subnet.public.id
 }
 
 output "security_group_id" {
@@ -35,6 +34,6 @@ output "security_group_id" {
 }
 
 output "ubuntu_ami_id" {
-  description = "Selected Ubuntu AMI ID"
+  description = "Ubuntu AMI ID"
   value       = data.aws_ami.ubuntu.id
 }

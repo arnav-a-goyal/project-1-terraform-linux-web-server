@@ -1,64 +1,35 @@
 #!/bin/bash
-
 set -euxo pipefail
 
-# Save installation logs
+# Save EC2 initialization logs
 exec > /var/log/user-data.log 2>&1
 
-# Update Ubuntu package repository
+export DEBIAN_FRONTEND=noninteractive
+
+# Update Ubuntu packages
 apt-get update
 
 # Install Apache
 apt-get install -y apache2
 
-# Create website
+# Create the website
 cat > /var/www/html/index.html <<'HTML'
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>AWS EC2 Web Server</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            text-align: center;
-            padding: 70px 20px;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            max-width: 650px;
-            margin: auto;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #232f3e;
-        }
-
-        p {
-            color: #555;
-            font-size: 17px;
-        }
-
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-    </style>
+    
 </head>
 
 <body>
 
-    <div class="container">
-
+    <main>
         <h1>AWS EC2 Web Server</h1>
 
         <p class="success">
@@ -66,7 +37,7 @@ cat > /var/www/html/index.html <<'HTML'
         </p>
 
         <p>
-            Hosted on an Ubuntu EC2 instance.
+            This page is hosted on an Ubuntu EC2 instance.
         </p>
 
         <p>
@@ -78,20 +49,18 @@ cat > /var/www/html/index.html <<'HTML'
         </p>
 
         <p>
-            Project: AWS Cloud Infrastructure Automation
+            Project 1: AWS Cloud Infrastructure Automation
         </p>
-
-    </div>
+    </main>
 
 </body>
 </html>
 HTML
 
 # Enable and start Apache
-systemctl enable apache2
-systemctl restart apache2
+systemctl enable --now apache2
 
-# Verify service
-systemctl is-active apache2
+# Verify Apache
+systemctl is-active --quiet apache2
 
-echo "Apache installation completed successfully"
+echo "Apache installation completed successfully."
